@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventory Vision Scanner</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Inventory Vision Scanner</h1>
+      <p>Classify objects with AI vision and log where they live.</p>
+    </header>
+
+    <main>
+      <section class="scanner">
+        <div class="video-wrapper">
+          <video id="camera" autoplay playsinline></video>
+          <div id="camera-overlay" class="overlay">
+            <span>Allow camera access to start scanning</span>
+          </div>
+        </div>
+        <div class="scanner-controls">
+          <button id="start-camera">Start Camera</button>
+          <button id="scan-button" disabled>Scan Item</button>
+        </div>
+        <div class="prediction" id="prediction-output">
+          <h2>Latest Scan</h2>
+          <p class="hint">No scans yet. Point the camera and press Scan.</p>
+        </div>
+      </section>
+
+      <section class="inventory-log">
+        <h2>Inventory Log</h2>
+        <form id="inventory-form">
+          <div class="field">
+            <label for="location">Location</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              placeholder="e.g. Storage Room A"
+              required
+            />
+          </div>
+          <div class="field">
+            <label for="notes">Notes (optional)</label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="2"
+              placeholder="Add extra context about the item"
+            ></textarea>
+          </div>
+          <button type="submit" id="log-button" disabled>Add to Inventory</button>
+        </form>
+
+        <div class="log-table-container">
+          <table id="inventory-table" aria-live="polite">
+            <thead>
+              <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Identified Item</th>
+                <th scope="col">Confidence</th>
+                <th scope="col">Location</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="empty-row">
+                <td colspan="5">No inventory items logged yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Powered by <a href="https://github.com/tensorflow/tfjs-models/tree/master/mobilenet">TensorFlow.js MobileNet</a> for on-device image classification.
+      </p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
